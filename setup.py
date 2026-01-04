@@ -4,8 +4,12 @@ import re
 import shutil
 import subprocess
 import sys
-import tomllib
 from typing import ClassVar
+
+try:
+    import tomllib
+except ModuleNotFoundError:
+    import tomli as tomllib
 
 import setuptools
 from setuptools import Extension
@@ -289,9 +293,9 @@ def get_cmdclass(has_extensions):
         class CUDABdistWheel(bdist_wheel):
             def finalize_options(self):
                 super().finalize_options()
-                if not BUILD_NO_CUDA:
-                    # Set stable ABI tag: cp312-abi3 instead of cp312-cp312
-                    # This indicates the extension uses Python's Limited API
+                # Set stable ABI tag only for Python 3.12+ (nanobind requirement)
+                # For 3.10/3.11, leave as version-specific (cpXXX-cpXXX)
+                if not BUILD_NO_CUDA and sys.version_info >= (3, 12):
                     self.py_limited_api = "cp312"
 
         cmdclass["bdist_wheel"] = CUDABdistWheel

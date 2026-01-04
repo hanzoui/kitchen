@@ -170,11 +170,20 @@ if(CMAKE_CONFIGURATION_TYPES)
     )
 endif()
 
-# Set properties for ABI3 compatibility (Stable ABI)
-target_compile_definitions(_C PRIVATE
-    Py_LIMITED_API=0x030C0000
-    NB_STATIC
-)
+# Set properties for ABI3 compatibility (Stable ABI) - Python 3.12+ only
+# Nanobind's stable ABI support requires Python 3.12+
+if(Python_VERSION VERSION_GREATER_EQUAL "3.12")
+    message(STATUS "Python ${Python_VERSION} detected - enabling stable ABI (abi3)")
+    target_compile_definitions(_C PRIVATE
+        Py_LIMITED_API=0x030C0000
+        NB_STATIC
+    )
+else()
+    message(STATUS "Python ${Python_VERSION} detected - building version-specific wheel")
+    target_compile_definitions(_C PRIVATE
+        NB_STATIC
+    )
+endif()
 
 
 # Install target

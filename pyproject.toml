@@ -3,15 +3,16 @@ requires = [
     "setuptools>=61.0",
     "wheel",
     "nanobind>=2.0.0",
+    "tomli; python_version < '3.11'",
 ]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "comfy-kitchen"
-version = "0.1.1"
+version = "0.1.2"
 description = "Fast Kernel Library for ComfyUI with multiple compute backends"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.10"
 license = {text = "Apache-2.0"}
 keywords = ["pytorch", "cuda", "quantization", "kernels", "diffusion"]
 classifiers = [
@@ -22,8 +23,8 @@ classifiers = [
 ]
 dependencies = [
     "torch>=2.5.0",
+    "nvidia-cublas>=13.0.0",
 ]
-# "nvidia-cublas>=13.0.0", <= we are purposefully leaving this out for now, should be installed when NVIDIA pytorch is
 
 [project.urls]
 Homepage = "https://github.com/comfyanonymous/ComfyKitchen"
@@ -50,8 +51,8 @@ exclude = ["tests*"]
 # Set the maximum line length to 100.
 line-length = 100
 
-# Assume Python 3.12
-target-version = "py312"
+# Assume Python 3.10 (lowest supported)
+target-version = "py310"
 
 # Exclude commonly ignored directories
 exclude = [

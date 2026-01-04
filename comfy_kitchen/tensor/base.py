@@ -7,7 +7,7 @@ import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from functools import lru_cache
-from typing import Any, Self
+from typing import Any
 
 import torch
 import torch._dynamo
@@ -39,21 +39,21 @@ class BaseLayoutParams:
         """Return list of field names that are tensors. Override in subclass."""
         return ["scale"]
 
-    def to_device(self, device: torch.device) -> Self:
+    def to_device(self, device: torch.device) -> BaseLayoutParams:
         """Move all tensor fields to the specified device."""
         kwargs = {f.name: getattr(self, f.name) for f in dataclasses.fields(self)}
         for field in self._tensor_fields():
             kwargs[field] = kwargs[field].to(device=device)
         return type(self)(**kwargs)
 
-    def clone(self) -> Self:
+    def clone(self) -> BaseLayoutParams:
         """Clone all tensor fields."""
         kwargs = {f.name: getattr(self, f.name) for f in dataclasses.fields(self)}
         for field in self._tensor_fields():
             kwargs[field] = kwargs[field].clone()
         return type(self)(**kwargs)
 
-    def copy_from(self, src: Self, non_blocking: bool = False) -> None:
+    def copy_from(self, src: BaseLayoutParams, non_blocking: bool = False) -> None:
         """Copy tensor fields in-place from src, reusing existing memory.
 
         Args:

@@ -163,7 +163,7 @@ def scaled_mm_nvfp4(
 
     result = torch._scaled_mm(
         a.view(torch.float4_e2m1fn_x2),
-        b.view(torch.float4_e2m1fn_x2),
+        b.view(torch.float4_e2m1fn_x2).t(),
         block_scale_a.view(-1),
         block_scale_b.view(-1),
         bias=None if should_add_bias_separately else bias,

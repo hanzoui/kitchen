@@ -112,12 +112,23 @@ set(CPP_SOURCES
 )
 
 # Create the nanobind module
-nanobind_add_module(_C
-    NB_STATIC
-    LTO
-    ${CPP_SOURCES}
-    ${CUDA_SOURCES}
-)
+if(Python_VERSION VERSION_GREATER_EQUAL "3.12")
+    nanobind_add_module(_C
+        NB_STATIC
+        STABLE_ABI
+        LTO
+        ${CPP_SOURCES}
+        ${CUDA_SOURCES}
+    )
+else()
+    # Python 3.10/3.11: version-specific module
+    nanobind_add_module(_C
+        NB_STATIC
+        LTO
+        ${CPP_SOURCES}
+        ${CUDA_SOURCES}
+    )
+endif()
 
 # Set target properties
 target_compile_options(_C PRIVATE

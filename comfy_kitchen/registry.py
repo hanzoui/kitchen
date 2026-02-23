@@ -14,7 +14,7 @@ from .exceptions import (
     NoCapableBackendError,
 )
 
-logger = logging.getLogger("comfy_kitchen.dispatch")
+logger = logging.getLogger("hanzo_kitchen.dispatch")
 
 
 class BackendRegistry:

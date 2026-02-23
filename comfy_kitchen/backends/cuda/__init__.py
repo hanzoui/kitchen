@@ -76,11 +76,11 @@ try:
 
     if os.path.exists(_module_path):
         _spec = importlib.util.spec_from_file_location(
-            "comfy_kitchen.backends.cuda._C", _module_path
+            "hanzo_kitchen.backends.cuda._C", _module_path
         )
         if _spec and _spec.loader:
             _C = importlib.util.module_from_spec(_spec)
-            sys.modules["comfy_kitchen.backends.cuda._C"] = _C
+            sys.modules["hanzo_kitchen.backends.cuda._C"] = _C
             _spec.loader.exec_module(_C)
             _EXT_AVAILABLE = True
             _EXT_ERROR = None
@@ -99,8 +99,8 @@ except Exception as e:
     _EXT_ERROR = f"Failed to load extension: {e}"
     _C = None  # type: ignore
 
-from comfy_kitchen.backends.eager.quantization import DTYPE_TO_CODE  # noqa: E402
-from comfy_kitchen.float_utils import roundup  # noqa: E402
+from hanzo_kitchen.backends.eager.quantization import DTYPE_TO_CODE  # noqa: E402
+from hanzo_kitchen.float_utils import roundup  # noqa: E402
 
 _CUBLASLT_AVAILABLE = _EXT_AVAILABLE and getattr(_C, "HAS_CUBLASLT", False)
 _cublas_workspace: torch.Tensor | None = None
@@ -485,7 +485,7 @@ def apply_rope(
 
 
 def _build_constraints() -> dict:
-    from comfy_kitchen.constraints import (
+    from hanzo_kitchen.constraints import (
         DivisibleBy,
         ExactDims,
         FunctionConstraints,
@@ -630,7 +630,7 @@ def _build_constraints() -> dict:
 
 def _register():
     """Register CUDA backend with the global registry."""
-    from comfy_kitchen.registry import registry
+    from hanzo_kitchen.registry import registry
 
     if not _EXT_AVAILABLE:
         registry.mark_unavailable("cuda", _EXT_ERROR)

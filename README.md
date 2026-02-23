@@ -29,7 +29,7 @@ The library provides `QuantizedTensor`, a `torch.Tensor` subclass that transpare
 | `TensorCoreMXFP8Layout`| MXFP8 E4M3   | SM ≥ 10.0 (Blackwell) | Block quantization with 32-element blocks, E8M0 scales |
 
 ```python
-from comfy_kitchen.tensor import QuantizedTensor, TensorCoreFP8Layout, TensorCoreNVFP4Layout
+from hanzo_kitchen.tensor import QuantizedTensor, TensorCoreFP8Layout, TensorCoreNVFP4Layout
 
 # Quantize a tensor
 x = torch.randn(128, 256, device="cuda", dtype=torch.bfloat16)
@@ -49,10 +49,10 @@ dq = qt.dequantize()
 
 ```bash
 # Install default (Linux/Windows/MacOS)
-pip install comfy-kitchen
+pip install hanzo-kitchen
 
 # Install with CUBLAS for NVFP4 (+Blackwell)
-pip install comfy-kitchen[cublas]
+pip install hanzo-kitchen[cublas]
 ```
 
 ### Package Variants
@@ -112,7 +112,7 @@ python setup.py build_ext --debug-build --lineinfo bdist_wheel
 ## Quick Start
 
 ```python
-import comfy_kitchen as ck
+import hanzo_kitchen as ck
 import torch
 
 # Automatic backend selection (triton -> cuda -> eager)
@@ -166,7 +166,7 @@ The registry validates inputs against these constraints **before** calling the b
 ```python
 # Debug logging to see backend selection
 import logging
-logging.getLogger("comfy_kitchen.dispatch").setLevel(logging.DEBUG)
+logging.getLogger("hanzo_kitchen.dispatch").setLevel(logging.DEBUG)
 ```
 
 

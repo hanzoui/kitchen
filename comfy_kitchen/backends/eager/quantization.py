@@ -8,7 +8,7 @@
 
 import torch
 
-from comfy_kitchen.float_utils import (
+from hanzo_kitchen.float_utils import (
     E8M0_BIAS,
     F4_E2M1_MAX,
     F8_E4M3_MAX,
@@ -21,7 +21,7 @@ from comfy_kitchen.float_utils import (
     roundup,
     to_blocked,
 )
-from comfy_kitchen.scaled_mm_v2 import ScalingType, SwizzleType, scaled_mm_v2
+from hanzo_kitchen.scaled_mm_v2 import ScalingType, SwizzleType, scaled_mm_v2
 
 # =============================================================================
 # Dtype Code Mappings (shared between custom ops and backends)
@@ -351,7 +351,7 @@ def scaled_mm_mxfp8(
 # =============================================================================
 
 
-@torch.library.custom_op("comfy_kitchen::quantize_fp8", mutates_args=())
+@torch.library.custom_op("hanzo_kitchen::quantize_fp8", mutates_args=())
 def _op_quantize_fp8(
     x: torch.Tensor,
     scale: torch.Tensor,
@@ -367,7 +367,7 @@ def _op_quantize_fp8(
     Returns:
         Quantized FP8 tensor
     """
-    from comfy_kitchen.registry import registry
+    from hanzo_kitchen.registry import registry
 
     output_dtype = DTYPE_CODE_TO_DTYPE[output_dtype_code]
     kwargs = {"x": x, "scale": scale, "output_type": output_dtype}
@@ -381,7 +381,7 @@ def _op_quantize_fp8_fake(x, scale, output_dtype_code):
     return torch.empty_like(x, dtype=output_dtype)
 
 
-@torch.library.custom_op("comfy_kitchen::dequantize_fp8", mutates_args=())
+@torch.library.custom_op("hanzo_kitchen::dequantize_fp8", mutates_args=())
 def _op_dequantize_fp8(
     x: torch.Tensor,
     scale: torch.Tensor,
@@ -397,7 +397,7 @@ def _op_dequantize_fp8(
     Returns:
         Dequantized tensor in specified output format
     """
-    from comfy_kitchen.registry import registry
+    from hanzo_kitchen.registry import registry
 
     output_dtype = DTYPE_CODE_TO_DTYPE[output_dtype_code]
     kwargs = {"x": x, "scale": scale, "output_type": output_dtype}
@@ -411,7 +411,7 @@ def _op_dequantize_fp8_fake(x, scale, output_dtype_code):
     return torch.empty_like(x, dtype=output_dtype)
 
 
-@torch.library.custom_op("comfy_kitchen::quantize_nvfp4", mutates_args=())
+@torch.library.custom_op("hanzo_kitchen::quantize_nvfp4", mutates_args=())
 def _op_quantize_nvfp4(
     x: torch.Tensor,
     per_tensor_scale: torch.Tensor,
@@ -429,7 +429,7 @@ def _op_quantize_nvfp4(
     Returns:
         Tuple of (quantized_tensor, block_scales)
     """
-    from comfy_kitchen.registry import registry
+    from hanzo_kitchen.registry import registry
 
     kwargs = {"x": x, "per_tensor_scale": per_tensor_scale, "epsilon": epsilon, "pad_16x": pad_16x}
     impl = registry.get_implementation("quantize_nvfp4", kwargs=kwargs)
@@ -455,7 +455,7 @@ def _op_quantize_nvfp4_fake(x, per_tensor_scale, epsilon, pad_16x):
     return qdata, block_scales
 
 
-@torch.library.custom_op("comfy_kitchen::dequantize_nvfp4", mutates_args=())
+@torch.library.custom_op("hanzo_kitchen::dequantize_nvfp4", mutates_args=())
 def _op_dequantize_nvfp4(
     qx: torch.Tensor,
     per_tensor_scale: torch.Tensor,
@@ -473,7 +473,7 @@ def _op_dequantize_nvfp4(
     Returns:
         Dequantized tensor in specified output format
     """
-    from comfy_kitchen.registry import registry
+    from hanzo_kitchen.registry import registry
 
     output_dtype = DTYPE_CODE_TO_DTYPE[output_dtype_code]
     kwargs = {"qx": qx, "per_tensor_scale": per_tensor_scale, "block_scales": block_scales, "output_type": output_dtype}
@@ -489,7 +489,7 @@ def _op_dequantize_nvfp4_fake(qx, per_tensor_scale, block_scales, output_dtype_c
     return torch.empty((rows, cols_packed * 2), dtype=output_dtype, device=qx.device)
 
 
-@torch.library.custom_op("comfy_kitchen::scaled_mm_nvfp4", mutates_args=())
+@torch.library.custom_op("hanzo_kitchen::scaled_mm_nvfp4", mutates_args=())
 def _op_scaled_mm_nvfp4(
     a: torch.Tensor,
     b: torch.Tensor,
@@ -519,7 +519,7 @@ def _op_scaled_mm_nvfp4(
     Returns:
         Result tensor of shape (M, N)
     """
-    from comfy_kitchen.registry import registry
+    from hanzo_kitchen.registry import registry
 
     out_dtype = DTYPE_CODE_TO_DTYPE[output_dtype_code]
     kwargs = {
@@ -547,7 +547,7 @@ def _op_scaled_mm_nvfp4_fake(
 # MXFP8 Custom Ops
 # =============================================================================
 
-@torch.library.custom_op("comfy_kitchen::quantize_mxfp8", mutates_args=())
+@torch.library.custom_op("hanzo_kitchen::quantize_mxfp8", mutates_args=())
 def _op_quantize_mxfp8(
     x: torch.Tensor,
     pad_32x: bool,
@@ -563,7 +563,7 @@ def _op_quantize_mxfp8(
     Returns:
         Tuple of (quantized_fp8_tensor, block_scales_e8m0)
     """
-    from comfy_kitchen.registry import registry
+    from hanzo_kitchen.registry import registry
 
     kwargs = {"x": x, "pad_32x": pad_32x}
     impl = registry.get_implementation("quantize_mxfp8", kwargs=kwargs)
@@ -591,7 +591,7 @@ def _op_quantize_mxfp8_fake(x, pad_32x):
     return qdata, block_scales
 
 
-@torch.library.custom_op("comfy_kitchen::dequantize_mxfp8", mutates_args=())
+@torch.library.custom_op("hanzo_kitchen::dequantize_mxfp8", mutates_args=())
 def _op_dequantize_mxfp8(
     qx: torch.Tensor,
     block_scales: torch.Tensor,
@@ -607,7 +607,7 @@ def _op_dequantize_mxfp8(
     Returns:
         Dequantized tensor in specified output format
     """
-    from comfy_kitchen.registry import registry
+    from hanzo_kitchen.registry import registry
 
     output_dtype = DTYPE_CODE_TO_DTYPE[output_dtype_code]
     kwargs = {"qx": qx, "block_scales": block_scales, "output_type": output_dtype}
@@ -621,7 +621,7 @@ def _op_dequantize_mxfp8_fake(qx, block_scales, output_dtype_code):
     return torch.empty_like(qx, dtype=output_dtype)
 
 
-@torch.library.custom_op("comfy_kitchen::scaled_mm_mxfp8", mutates_args=())
+@torch.library.custom_op("hanzo_kitchen::scaled_mm_mxfp8", mutates_args=())
 def _op_scaled_mm_mxfp8(
     a: torch.Tensor,
     b: torch.Tensor,
@@ -645,7 +645,7 @@ def _op_scaled_mm_mxfp8(
     Returns:
         Result tensor of shape (M, N)
     """
-    from comfy_kitchen.registry import registry
+    from hanzo_kitchen.registry import registry
 
     out_dtype = DTYPE_CODE_TO_DTYPE[output_dtype_code]
     kwargs = {

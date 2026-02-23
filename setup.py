@@ -239,16 +239,16 @@ def setup_cuda_extension() -> CMakeExtension | None:
         raise RuntimeError(f"ERROR: {e}") from e
 
     root_dir = pathlib.Path(__file__).resolve().parent
-    cuda_backend_dir = root_dir / "comfy_kitchen" / "backends" / "cuda"
+    cuda_backend_dir = root_dir / "hanzo_kitchen" / "backends" / "cuda"
 
     if not cuda_backend_dir.exists():
         raise RuntimeError(f"WARNING: CUDA backend directory not found: {cuda_backend_dir}")
 
-    print("Building CUDA extension with CMake + nanobind: comfy_kitchen.backends.cuda._C")
+    print("Building CUDA extension with CMake + nanobind: hanzo_kitchen.backends.cuda._C")
 
     # Create CMake extension pointing to the CUDA backend directory
     ext_module = CMakeExtension(
-        name="comfy_kitchen.backends.cuda._C",
+        name="hanzo_kitchen.backends.cuda._C",
         source_dir=str(cuda_backend_dir),
     )
 
@@ -271,7 +271,7 @@ def get_extensions() -> list[setuptools.Extension]:
         extensions.append(cuda_ext)
     else:
         print("\n" + "=" * 80)
-        print("Installing comfy_kitchen without CUDA backend")
+        print("Installing hanzo_kitchen without CUDA backend")
         print("Available backends: eager, triton (if installed)")
         print("=" * 80 + "\n")
 
@@ -304,7 +304,7 @@ def get_cmdclass(has_extensions):
 
 def get_packages():
     if BUILD_NO_CUDA:
-        cuda_dir = pathlib.Path("comfy_kitchen/backends/cuda")
+        cuda_dir = pathlib.Path("hanzo_kitchen/backends/cuda")
         cuda_backup = pathlib.Path("cuda_backup_temp_build")
 
         if cuda_dir.exists():
@@ -338,7 +338,7 @@ if BUILD_NO_CUDA:
 
     setup_kwargs.update({
         "packages": get_packages(),
-        "name": "comfy-kitchen",
+        "name": "hanzo-kitchen",
         "version": version,
         "description": f"{description} (CPU-only)",
         "include_package_data": False,

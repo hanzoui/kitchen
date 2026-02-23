@@ -31,7 +31,7 @@ except ImportError as e:
 def _build_constraints() -> dict:
     import torch
 
-    from comfy_kitchen.constraints import (
+    from hanzo_kitchen.constraints import (
         ExactDims,
         FunctionConstraints,
         ParamConstraint,
@@ -118,7 +118,7 @@ def _build_constraints() -> dict:
 def _register():
     import torch
 
-    from comfy_kitchen.registry import registry
+    from hanzo_kitchen.registry import registry
 
     if not _TRITON_AVAILABLE:
         registry.mark_unavailable("triton", _TRITON_ERROR or "Triton not available")

@@ -1,8 +1,8 @@
 import pytest
 import torch
 
-import comfy_kitchen as ck
-from comfy_kitchen.constraints import (
+import hanzo_kitchen as ck
+from hanzo_kitchen.constraints import (
     DivisibleBy,
     ExactDims,
     FunctionConstraints,
@@ -11,7 +11,7 @@ from comfy_kitchen.constraints import (
     validate_function_call,
     validate_param,
 )
-from comfy_kitchen.exceptions import NoCapableBackendError
+from hanzo_kitchen.exceptions import NoCapableBackendError
 
 
 class TestShapeRules:

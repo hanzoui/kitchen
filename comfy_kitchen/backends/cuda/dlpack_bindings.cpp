@@ -478,7 +478,7 @@ void apply_rope(
 
 // Python module definition
 NB_MODULE(_C, m) {
-    m.doc() = "comfy_kitchen CUDA kernels - nanobind + DLPack interface (NO PyTorch C++ dependencies)";
+    m.doc() = "hanzo_kitchen CUDA kernels - nanobind + DLPack interface (NO PyTorch C++ dependencies)";
     
     m.def("quantize_per_tensor_fp8", &quantize_per_tensor_fp8,
           "Quantize to FP8 using nanobind ndarrays",

@@ -7,8 +7,8 @@ from typing import TYPE_CHECKING
 
 import torch
 
-import comfy_kitchen as ck
-from comfy_kitchen.scaled_mm_v2 import scaled_mm_v2
+import hanzo_kitchen as ck
+from hanzo_kitchen.scaled_mm_v2 import scaled_mm_v2
 
 from .base import BaseLayoutParams, QuantizedLayout, dequantize_args, register_layout_op
 

@@ -65,7 +65,7 @@ def quantize_per_tensor_fp8(
         Quantized FP8 tensor
     """
     dtype_code = DTYPE_TO_CODE[output_type]
-    return torch.ops.comfy_kitchen.quantize_fp8(x, scale, dtype_code)
+    return torch.ops.hanzo_kitchen.quantize_fp8(x, scale, dtype_code)
 
 
 def dequantize_per_tensor_fp8(
@@ -84,7 +84,7 @@ def dequantize_per_tensor_fp8(
         Dequantized tensor in specified output format
     """
     dtype_code = DTYPE_TO_CODE[output_type]
-    return torch.ops.comfy_kitchen.dequantize_fp8(x, scale, dtype_code)
+    return torch.ops.hanzo_kitchen.dequantize_fp8(x, scale, dtype_code)
 
 
 def quantize_nvfp4(
@@ -104,7 +104,7 @@ def quantize_nvfp4(
     Returns:
         Tuple of (quantized_tensor, block_scales)
     """
-    return torch.ops.comfy_kitchen.quantize_nvfp4(x, per_tensor_scale, epsilon, pad_16x)
+    return torch.ops.hanzo_kitchen.quantize_nvfp4(x, per_tensor_scale, epsilon, pad_16x)
 
 
 def dequantize_nvfp4(
@@ -125,7 +125,7 @@ def dequantize_nvfp4(
         Dequantized tensor in specified output format
     """
     dtype_code = DTYPE_TO_CODE[output_type]
-    return torch.ops.comfy_kitchen.dequantize_nvfp4(qx, per_tensor_scale, block_scales, dtype_code)
+    return torch.ops.hanzo_kitchen.dequantize_nvfp4(qx, per_tensor_scale, block_scales, dtype_code)
 
 
 def scaled_mm_nvfp4(
@@ -160,7 +160,7 @@ def scaled_mm_nvfp4(
     if out_dtype is None:
         out_dtype = torch.bfloat16
     dtype_code = DTYPE_TO_CODE[out_dtype]
-    return torch.ops.comfy_kitchen.scaled_mm_nvfp4(
+    return torch.ops.hanzo_kitchen.scaled_mm_nvfp4(
         a, b, tensor_scale_a, tensor_scale_b,
         block_scale_a, block_scale_b, bias, dtype_code, alpha
     )
@@ -183,7 +183,7 @@ def quantize_mxfp8(
         - quantized_fp8_tensor: FP8 E4M3 data of shape (M, K)
         - block_scales_e8m0: E8M0 scales in swizzled layout
     """
-    return torch.ops.comfy_kitchen.quantize_mxfp8(x, pad_32x)
+    return torch.ops.hanzo_kitchen.quantize_mxfp8(x, pad_32x)
 
 
 def dequantize_mxfp8(
@@ -202,7 +202,7 @@ def dequantize_mxfp8(
         Dequantized tensor in specified output format
     """
     dtype_code = DTYPE_TO_CODE[output_type]
-    return torch.ops.comfy_kitchen.dequantize_mxfp8(qx, block_scales, dtype_code)
+    return torch.ops.hanzo_kitchen.dequantize_mxfp8(qx, block_scales, dtype_code)
 
 
 def scaled_mm_mxfp8(
@@ -231,7 +231,7 @@ def scaled_mm_mxfp8(
     if out_dtype is None:
         out_dtype = torch.bfloat16
     dtype_code = DTYPE_TO_CODE[out_dtype]
-    return torch.ops.comfy_kitchen.scaled_mm_mxfp8(
+    return torch.ops.hanzo_kitchen.scaled_mm_mxfp8(
         a, b, block_scale_a, block_scale_b, bias, dtype_code
     )
 
@@ -249,7 +249,7 @@ def apply_rope(
     Returns:
         Tuple of (transformed_query, transformed_key)
     """
-    return torch.ops.comfy_kitchen.apply_rope(xq, xk, freqs_cis)
+    return torch.ops.hanzo_kitchen.apply_rope(xq, xk, freqs_cis)
 
 
 def apply_rope1(
@@ -264,7 +264,7 @@ def apply_rope1(
     Returns:
         Transformed tensor
     """
-    return torch.ops.comfy_kitchen.apply_rope1(x, freqs_cis)
+    return torch.ops.hanzo_kitchen.apply_rope1(x, freqs_cis)
 
 
 # =============================================================================
@@ -324,7 +324,7 @@ def use_backend(name: str):
         name: Backend name to use within the context
 
     Example:
-        with comfy_kitchen.use_backend("eager"):
-            result = comfy_kitchen.quantize_per_tensor_fp8(x, scale)
+        with hanzo_kitchen.use_backend("eager"):
+            result = hanzo_kitchen.quantize_per_tensor_fp8(x, scale)
     """
     return registry.use_backend(name)

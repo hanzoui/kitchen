@@ -8,9 +8,9 @@ requires = [
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "comfy-kitchen"
+name = "hanzo-kitchen"
 version = "0.2.7"
-description = "Fast Kernel Library for ComfyUI with multiple compute backends"
+description = "Fast Kernel Library for Hanzo Studio with multiple compute backends"
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "Apache-2.0"}
@@ -24,7 +24,7 @@ classifiers = [
 dependencies = []
 
 [project.urls]
-Homepage = "https://github.com/Comfy-Org/comfy-kitchen"
+Homepage = "https://github.com/hanzoui/kitchen"
 
 [project.optional-dependencies]
 cublas = [
@@ -41,11 +41,11 @@ build = [
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["comfy_kitchen*"]
+include = ["hanzo_kitchen*"]
 exclude = ["tests*"]
 
 [tool.setuptools.package-data]
-"comfy_kitchen.backends.cuda" = ["*.cuh", "*.h"]
+"hanzo_kitchen.backends.cuda" = ["*.cuh", "*.h"]
 
 [tool.ruff]
 # Set the maximum line length to 100.
@@ -84,7 +84,7 @@ select = [
 ignore = [
     "E501",  # Line too long (handled by formatter)
     "B008",  # Do not perform function call in argument defaults
-    "N802",  # Function name should be lowercase (ComfyUI Nodes)
+    "N802",  # Function name should be lowercase (Hanzo Studio Nodes)
 ]
 
 # Allow autofix for all enabled rules

@@ -1,7 +1,7 @@
 import pytest
 import torch
 
-import comfy_kitchen as ck
+import hanzo_kitchen as ck
 
 from .conftest import assert_values_close, get_capable_backends
 

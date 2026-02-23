@@ -29,7 +29,7 @@ namespace comfy {
 // =============================================================================
 // Dtype Code Constants
 // These MUST match the Python DTYPE_CODE_TO_DTYPE in:
-//   comfy_kitchen/backends/eager/quantization.py
+//   hanzo_kitchen/backends/eager/quantization.py
 // =============================================================================
 
 // Standard floating point types

@@ -27,7 +27,7 @@ from .rope import apply_rope, apply_rope1
 def _build_constraints() -> dict:
     import torch
 
-    from comfy_kitchen.constraints import (
+    from hanzo_kitchen.constraints import (
         ExactDims,
         FunctionConstraints,
         ParamConstraint,
@@ -164,7 +164,7 @@ def _build_constraints() -> dict:
 
 
 def _register():
-    from comfy_kitchen.registry import registry
+    from hanzo_kitchen.registry import registry
 
     registry.register(
         name="eager",

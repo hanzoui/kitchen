@@ -1,7 +1,7 @@
 import pytest
 import torch
 
-import comfy_kitchen as ck
+import hanzo_kitchen as ck
 
 
 def pytest_configure(config):

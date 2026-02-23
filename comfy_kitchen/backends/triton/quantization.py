@@ -17,7 +17,7 @@ import torch
 
 import triton
 import triton.language as tl
-from comfy_kitchen.float_utils import (
+from hanzo_kitchen.float_utils import (
     F8_E4M3_MAX,
     F8_E5M2_MAX,
     ceil_div,

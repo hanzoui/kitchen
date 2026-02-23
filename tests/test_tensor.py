@@ -1,9 +1,9 @@
-"""Unit tests for comfy_kitchen.tensor module."""
+"""Unit tests for hanzo_kitchen.tensor module."""
 import pytest
 import torch
 
-import comfy_kitchen
-from comfy_kitchen.tensor import (
+import hanzo_kitchen
+from hanzo_kitchen.tensor import (
     BaseLayoutParams,
     QuantizedTensor,
     TensorCoreFP8Layout,
@@ -888,7 +888,7 @@ class TestNVFP4LinearOperations:
 
         qt_x = QuantizedTensor.from_float(x, "TensorCoreNVFP4Layout")
         qt_w = QuantizedTensor.from_float(w, "TensorCoreNVFP4Layout")
-        with comfy_kitchen.use_backend("eager"):
+        with hanzo_kitchen.use_backend("eager"):
             result = torch.nn.functional.linear(qt_x, qt_w)
         expected = torch.nn.functional.linear(qt_x.dequantize(), qt_w.dequantize())
 

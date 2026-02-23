@@ -20,13 +20,13 @@ def apply_rope(xq: torch.Tensor, xk: torch.Tensor, freqs_cis: torch.Tensor):
 # =============================================================================
 
 
-@torch.library.custom_op("comfy_kitchen::apply_rope", mutates_args=())
+@torch.library.custom_op("hanzo_kitchen::apply_rope", mutates_args=())
 def _op_apply_rope(
     xq: torch.Tensor,
     xk: torch.Tensor,
     freqs_cis: torch.Tensor,
 ) -> tuple[torch.Tensor, torch.Tensor]:
-    from comfy_kitchen.registry import registry
+    from hanzo_kitchen.registry import registry
 
     kwargs = {"xq": xq, "xk": xk, "freqs_cis": freqs_cis}
     impl = registry.get_implementation("apply_rope", kwargs=kwargs)
@@ -38,12 +38,12 @@ def _op_apply_rope_fake(xq, xk, freqs_cis):
     return torch.empty_like(xq), torch.empty_like(xk)
 
 
-@torch.library.custom_op("comfy_kitchen::apply_rope1", mutates_args=())
+@torch.library.custom_op("hanzo_kitchen::apply_rope1", mutates_args=())
 def _op_apply_rope1(
     x: torch.Tensor,
     freqs_cis: torch.Tensor,
 ) -> torch.Tensor:
-    from comfy_kitchen.registry import registry
+    from hanzo_kitchen.registry import registry
 
     kwargs = {"x": x, "freqs_cis": freqs_cis}
     impl = registry.get_implementation("apply_rope1", kwargs=kwargs)

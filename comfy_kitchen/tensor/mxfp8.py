@@ -7,8 +7,8 @@ from typing import TYPE_CHECKING
 
 import torch
 
-import comfy_kitchen as ck
-from comfy_kitchen.float_utils import roundup
+import hanzo_kitchen as ck
+from hanzo_kitchen.float_utils import roundup
 
 from .base import BaseLayoutParams, QuantizedLayout, dequantize_args, register_layout_op
 
